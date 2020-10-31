@@ -1,5 +1,6 @@
 package com.cenfotec.assets.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ public class AssignAssetsWorkers {
     @JoinColumn(name = "workers_id")
     Worker worker;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "physical_asset_id")
     PhysicalAsset physicalAsset;
