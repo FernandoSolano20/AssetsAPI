@@ -1,6 +1,8 @@
 package com.cenfotec.assets.controllers;
 
+import com.cenfotec.assets.model.AssignAssetsWorkers;
 import com.cenfotec.assets.model.PhysicalAsset;
+import com.cenfotec.assets.service.IAssignAssetsWorkersService;
 import com.cenfotec.assets.service.IPhysicalAssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +12,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping({"api/physicalassets"})
+@CrossOrigin
 public class PhysicalAssetController {
     @Autowired
     private IPhysicalAssetService service;
+    @Autowired
+    private IAssignAssetsWorkersService assignAssetsWorkersService;
 
     @GetMapping
     public List findAll()
@@ -60,9 +65,9 @@ public class PhysicalAssetController {
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(path = {"/assignWorkerToAsset"})
-    public PhysicalAsset assignWorkerToAsset(@RequestBody PhysicalAsset physicalAsset)
+    @PostMapping(path = {"/assign"}, consumes={"application/json"})
+    public PhysicalAsset assignWorkerToAsset(@RequestBody AssignAssetsWorkers assignAssetsWorkers)
     {
-        return service.assignWorkerToAsset(physicalAsset);
+        return service.assignWorkerToAsset(assignAssetsWorkers);
     }
 }

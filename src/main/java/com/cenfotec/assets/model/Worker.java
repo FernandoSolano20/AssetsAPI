@@ -1,7 +1,11 @@
 package com.cenfotec.assets.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "workers")
@@ -17,6 +21,10 @@ public class Worker {
     private LocalDate birthday;
 
     private int state;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "worker")
+    private Set<AssignAssetsWorkers> assignAssetsWorkers = new HashSet<>();
 
     public Worker() {
     }
@@ -59,5 +67,13 @@ public class Worker {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public Set<AssignAssetsWorkers> getAssignAssetsWorkers() {
+        return assignAssetsWorkers;
+    }
+
+    public void setAssignAssetsWorkers(Set<AssignAssetsWorkers> assignAssetsWorkers) {
+        this.assignAssetsWorkers = assignAssetsWorkers;
     }
 }

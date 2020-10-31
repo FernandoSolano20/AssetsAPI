@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping({"api/assettypes"})
+@CrossOrigin
 public class AssetTypeController {
     @Autowired
     private IAssetTypeService service;

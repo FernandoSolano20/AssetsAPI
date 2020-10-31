@@ -1,7 +1,10 @@
 package com.cenfotec.assets.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "physical_asset")
@@ -26,11 +29,8 @@ public class PhysicalAsset {
     @JoinColumn(name = "asset_id")
     private AssetType assetId;
 
-    @ManyToOne()
-    @JoinColumn(name = "workers_id")
-    private Worker workersId;
-
-    private LocalDate assignedDate;
+    @OneToMany(mappedBy = "physicalAsset", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<AssignAssetsWorkers> assignAssetsWorkers  = new HashSet<>();
 
     public PhysicalAsset() {
     }
@@ -99,19 +99,11 @@ public class PhysicalAsset {
         this.assetId = assetId;
     }
 
-    public Worker getWorkersId() {
-        return workersId;
+    public Set<AssignAssetsWorkers> getAssignAssetsWorkers() {
+        return assignAssetsWorkers;
     }
 
-    public void setWorkersId(Worker workersId) {
-        this.workersId = workersId;
-    }
-
-    public LocalDate getAssignedDate() {
-        return assignedDate;
-    }
-
-    public void setAssignedDate(LocalDate assignedDate) {
-        this.assignedDate = assignedDate;
+    public void setAssignAssetsWorkers(Set<AssignAssetsWorkers> assignAssetsWorkers) {
+        this.assignAssetsWorkers = assignAssetsWorkers;
     }
 }
