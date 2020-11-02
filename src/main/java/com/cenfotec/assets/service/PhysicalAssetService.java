@@ -25,31 +25,35 @@ public class PhysicalAssetService implements IPhysicalAssetService {
     WorkerRepository workerRepository;
 
     @Override
-    public PhysicalAsset save(PhysicalAsset physicalAsset) {
+    public PhysicalAsset save(PhysicalAsset physicalAsset) throws Exception {
         AssetType assetType = physicalAsset.getAssetId();
         AssetType currentAssetTypeInfo = assetTypeRepository.findById(assetType.getId()).get();
         if (currentAssetTypeInfo == null || currentAssetTypeInfo.getState() == 0) {
-            return null;
+            throw new Exception("Tipo de activo inactivo");
         }
         return repository.save(physicalAsset);
     }
 
     @Override
-    public PhysicalAsset update(PhysicalAsset physicalAsset) {
+    public PhysicalAsset update(PhysicalAsset physicalAsset) throws Exception {
         return save(physicalAsset);
     }
 
     @Override
-    public PhysicalAsset assignWorkerToAsset(AssignAssetsWorkers assignAssetsWorkers) {
+    public PhysicalAsset assignWorkerToAsset(AssignAssetsWorkers assignAssetsWorkers) throws Exception {
         PhysicalAsset currentEntity = getById(assignAssetsWorkers.getPhysicalAsset().getId()).get();
         if (currentEntity == null
-                || currentEntity.getState() == 0
-                || currentEntity.getAssignedAssets() == currentEntity.getQuantity()){
-            return null;
+                || currentEntity.getState() == 0) {
+            throw new Exception("Activo fisico inactivo");
         }
+
+        if (currentEntity.getAssignedAssets() == currentEntity.getQuantity()){
+            throw new Exception("No hay mas activos en stock");
+        }
+
         Worker worker = workerRepository.findById(assignAssetsWorkers.getWorker().getId()).get();
         if(worker.getState() == 0){
-            return null;
+            throw new Exception("Trabajador inactivo");
         }
 
         currentEntity.setAssignedAssets(currentEntity.getAssignedAssets() + 1);

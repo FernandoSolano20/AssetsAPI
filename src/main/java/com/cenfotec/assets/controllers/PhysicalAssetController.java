@@ -31,8 +31,7 @@ public class PhysicalAssetController {
     }
 
     @PostMapping
-    public PhysicalAsset create(@RequestBody PhysicalAsset physicalAsset)
-    {
+    public PhysicalAsset create(@RequestBody PhysicalAsset physicalAsset) throws Exception {
         return service.save(physicalAsset);
     }
 
@@ -47,7 +46,12 @@ public class PhysicalAssetController {
                     record.setQuantity(physicalAsset.getQuantity());
                     record.setState(physicalAsset.getState());
                     record.setAssetId(physicalAsset.getAssetId());
-                    PhysicalAsset updated = service.update(record);
+                    PhysicalAsset updated = null;
+                    try {
+                        updated = service.update(record);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     return ResponseEntity.ok().body(updated);
                 }).orElse(ResponseEntity.notFound().build());
     }
@@ -63,8 +67,7 @@ public class PhysicalAssetController {
     }
 
     @PostMapping(path = {"/assign"}, consumes={"application/json"})
-    public PhysicalAsset assignWorkerToAsset(@RequestBody AssignAssetsWorkers assignAssetsWorkers)
-    {
+    public PhysicalAsset assignWorkerToAsset(@RequestBody AssignAssetsWorkers assignAssetsWorkers) throws Exception {
         return service.assignWorkerToAsset(assignAssetsWorkers);
     }
 }

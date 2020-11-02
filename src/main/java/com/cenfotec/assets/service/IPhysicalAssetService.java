@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IPhysicalAssetService {
-    public PhysicalAsset save(PhysicalAsset physicalAsset);
-    public PhysicalAsset update(PhysicalAsset physicalAsset);
-    public PhysicalAsset assignWorkerToAsset(AssignAssetsWorkers assignAssetsWorkers);
+    public PhysicalAsset save(PhysicalAsset physicalAsset) throws Exception;
+    public PhysicalAsset update(PhysicalAsset physicalAsset) throws Exception;
+    public PhysicalAsset assignWorkerToAsset(AssignAssetsWorkers assignAssetsWorkers) throws Exception;
     public void delete(Long id);
     public List<PhysicalAsset> getAll();
     public Optional<PhysicalAsset> getById(Long id);
